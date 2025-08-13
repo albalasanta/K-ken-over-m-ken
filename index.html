@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kåken over Måken - Kunstgalleri</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: #ddd;
+            border-radius: 8px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: normal;
+            color: #2c3e50;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 2px;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .artwork-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .artwork-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #e8e8e8, #f5f5f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .artwork-info {
+            padding: 20px;
+        }
+
+        .artwork-title {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .artwork-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Project Detail Page */
+        .project-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #34495e;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #e8e8e8, #f5f5f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .project-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .project-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        /* About and Contact Pages */
+        .content-page {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .content-page p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .site-title {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .project-detail,
+            .content-page {
+                padding: 25px;
+                margin: 0 10px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">LOGO</div>
+                    <h1 class="site-title">Kåken over Måken</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="home">Hjem</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">Om</a></li>
+                        <li><a href="#" class="nav-link" data-page="contact">Kontakt</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Page (Gallery Feed) -->
+        <section id="home" class="page-section active">
+            <div class="gallery-grid">
+                <div class="artwork-card" onclick="showProject('project1')">
+                    <div class="artwork-image">Klikk for å laste opp bilde</div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Måkenes Dans</h3>
+                        <p class="artwork-description">En poetisk utforskning av måkenes bevegelser over havoverflaten, fanget i olje på lerret.</p>
+                    </div>
+                </div>
+
+                <div class="artwork-card" onclick="showProject('project2')">
+                    <div class="artwork-image">Klikk for å laste opp bilde</div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Kåkens Hemmeligheter</h3>
+                        <p class="artwork-description">Et intimt portrett av hverdagslivets skjønnhet gjennom akvarell og blyant.</p>
+                    </div>
+                </div>
+
+                <div class="artwork-card" onclick="showProject('project3')">
+                    <div class="artwork-image">Klikk for å laste opp bilde</div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Høststorm</h3>
+                        <p class="artwork-description">Kraftfulle strøk som fanger naturens vilde energi i møtet mellom land og hav.</p>
+                    </div>
+                </div>
+
+                <div class="artwork-card" onclick="showProject('project4')">
+                    <div class="artwork-image">Klikk for å laste opp bilde</div>
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">Nordlys over Fjæren</h3>
+                        <p class="artwork-description">En magisk skildring av nordlysets dans over den stille fjærestrand.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Detail Pages -->
+        <section id="project1" class="page-section">
+            <div class="project-detail">
+                <button class="back-button" onclick="showPage('home')">← Tilbake til galleriet</button>
+                <div class="project-image">Stort prosjektbilde her</div>
+                <h2 class="project-title">Måkenes Dans</h2>
+                <div class="project-content">
+                    <p>Dette verket er inspirert av de tidlige morgentimene ved kysten, hvor måkene danser elegant over bølgekammene. Gjennom varme jordtoner og dynamiske penselstrøk har jeg forsøkt å fange den evige dialogen mellom himmel og hav.</p>
+                    
+                    <p>Maleriet er utført i olje på lerret, 80x120 cm, og representerer måneder med studier av måkenes bevegelsesmønstre. Hver penselstrøk er lagt med omhu for å formidle både bevegelse og ro.</p>
+                    
+                    <p>Verket er en del av serien "Kystens Stemmer" hvor jeg utforsker forholdet mellom menneske og natur langs den norske kysten. Æ, ø og å - disse bokstavene som er så fundamentale for vårt språk - reflekteres også i de organiske formene i maleriet.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="project2" class="page-section">
+            <div class="project-detail">
+                <button class="back-button" onclick="showPage('home')">← Tilbake til galleriet</button>
+                <div class="project-image">Stort prosjektbilde her</div>
+                <h2 class="project-title">Kåkens Hemmeligheter</h2>
+                <div class="project-content">
+                    <p>I dette intimate verket utforsker jeg hverdagslivets skjulte skjønnhet. Gjennom akvarell og blyant har jeg fanget øyeblikk av stillhet og kontemplasjon.</p>
+                    
+                    <p>Teknikken kombinerer transparente akvarellvask med presise blyantlinjer, som skaper en dialog mellom det flyktige og det permanente. Motivet henter inspirasjon fra enkle gjenstander i hjemmet - en kopp på bordet, lyset som faller inn gjennom vinduet.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="project3" class="page-section">
+            <div class="project-detail">
+                <button class="back-button" onclick="showPage('home')">← Tilbake til galleriet</button>
+                <div class="project-image">Stort prosjektbilde her</div>
+                <h2 class="project-title">Høststorm</h2>
+                <div class="project-content">
+                    <p>Dette kraftfulle verket fanger essensen av en høststorm som feier inn fra havet. Med ekspressive penselstrøk og en dramatisk fargepalett utforsker jeg naturens rå kraft.</p>
+                    
+                    <p>Maleriet er bygd opp i lag, hvor hver strøk representerer vindens bevegelse og regnets intensitet. De mørke tonene kontrasteres av lyse glimter som antyder håp midt i stormen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="project4" class="page-section">
+            <div class="project-detail">
+                <button class="back-button" onclick="showPage('home')">← Tilbake til galleriet</button>
+                <div class="project-image">Stort prosjektbilde her</div>
+                <h2 class="project-title">Nordlys over Fjæren</h2>
+                <div class="project-content">
+                    <p>En hyllest til den nordiske naturen og dens magiske fenomener. Dette verket fanger nordlysets ethereiske dans over en stille fjærestrand en klar vinterkveld.</p>
+                    
+                    <p>Gjennom bruk av luminescerende pigmenter og tradisjonelle teknikker har jeg forsøkt å gjenskape opplevelsen av å stå under dette naturens fyrverkeri. Fargepaletten spenner fra dype blåtoner til vibrerende grønne nyanser.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page-section">
+            <div class="content-page">
+                <h2 class="page-title">Om Kåken over Måken</h2>
+                <p>Velkommen til Kåken over Måken - et kunstgalleri dedikert til å utforske forholdet mellom menneske og natur gjennom visuell kunst.</p>
+                
+                <p>Vårt galleri fokuserer på å presentere verk som fanger essensen av den nordiske naturen og kulturen. Her finner du malerier, tegninger og blandede teknikker som reflekterer over livets store og små øyeblikk.</p>
+                
+                <p>Navnet "Kåken over Måken" symboliserer perspektivet fra det intime og nære (kåken/hytta) mot det frie og vide (måkene og havet). Dette perspektivet preger alle verkene vi presenterer.</p>
+                
+                <p>Vi tror på at kunst skal være tilgjengelig og meningsfull for alle. Derfor ønsker vi å skape en arena hvor både etablerte og nye kunstnere kan dele sine visjoner og berøre publikum på en autentisk måte.</p>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="contact" class="page-section">
+            <div class="content-page">
+                <h2 class="page-title">Kontakt</h2>
+                <p>Vi ønsker å høre fra deg! Enten du er interessert i å kjøpe kunst, ønsker informasjon om utstillinger, eller har spørsmål om våre tjenester.</p>
+                
+                <div class="contact-info">
+                    <h3>Kontaktinformasjon</h3>
+                    <p><strong>Adresse:</strong> [Din adresse her]</p>
+                    <p><strong>Telefon:</strong> [Ditt telefonnummer]</p>
+                    <p><strong>E-post:</strong> [Din e-postadresse]</p>
+                    <p><strong>Åpningstider:</strong> [Dine åpningstider]</p>
+                </div>
+                
+                <p>Følg oss gjerne på sosiale medier for å holde deg oppdatert på nye utstillinger og arrangementer.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function showProject(projectId) {
+            showPage(projectId);
+        }
+        
+        // Add click handlers to navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
